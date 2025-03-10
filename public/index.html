@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #messages { list-style-type: none; padding: 0; }
+        #messages li { padding: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Chat</h1>
+    
+    <input id="roomInput" placeholder="Room name" />
+    <button onclick="joinRoom()">Join Room</button>
+
+    <ul id="messages"></ul>
+
+
+    <input id="input" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let currentRoom = '';
+
+        function joinRoom() {
+            const roomName = document.getElementById('roomInput').value.trim();
+            if (roomName) {
+                currentRoom = roomName;
+                socket.emit('join room', roomName);
+                document.getElementById('roomInput').value = '';
+            } else {
+                alert('Enter a room name!');
+            }
+        }
+
+        function sendMessage() {
+            const messages = document.getElementById('input').value.trim();
+            if (messages && currentRoom) {
+                socket.emit('chat message', messages, currentRoom);
+                document.getElementById('input').value = '';
+            } else if (!currentRoom) {
+                alert('Join a room first!');
+            } else {
+                alert('Enter a message!');
+            }
+        }
+
+        socket.on('chat message', (messages) => {
+            const li = document.createElement('li');
+            li.textContent = messages;
+            document.getElementById('messages').appendChild(li);
+        });
+
+    </script>
+</body>
+</html>
