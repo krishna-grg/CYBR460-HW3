@@ -1,8 +1,8 @@
 
 {
-    "name": "chat-room-server",
+    "name": "chatapp",
     "version": "1.0.0",
-    "description": "A real-time chat room server",
+    "description": "A real-time chating app",
     "main": "server.js",
     "scripts": {
       "start": "node server.js"
@@ -11,6 +11,5 @@
       "express": "^4.18.2",
       "socket.io": "^4.7.5"
     },
-    "author": "Krishna",
-    "license": "MIT"
+    "author": "Krishna"
   }
